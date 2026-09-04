@@ -10,6 +10,3 @@ Single codebase (Expo / React Native) targeting Android, iOS, and Web. A backend
 
 Architecture only — no code has been scaffolded yet.
 
-## Docs
-
-See [`specs/architecture.md`](specs/architecture.md) for the current architecture and scope.
