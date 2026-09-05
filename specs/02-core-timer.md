@@ -73,7 +73,7 @@ Track two fields: `remainingAtLastActionMs` (remaining time as of the last Start
 ## Out of scope (deferred)
 
 - UI of any kind — see Feature 3 (Android, first implementation), reused by Features 4 (iOS) and 5 (Web)
-- Platform-specific backgrounding behavior (process death, tab throttling, etc.) — the contract above guarantees the core self-corrects with no missed-tick dependency, but what the *user* experiences on each OS is documented per-platform in Features 3-5
+- Platform-specific backgrounding behavior (process death, tab throttling, etc.) — the contract above guarantees the core self-corrects with no missed-tick dependency, but what the _user_ experiences on each OS is documented per-platform in Features 3-5
 - Persistence (e.g. `AsyncStorage`) behind a repository interface
 - Session-complete notifications (e.g. `expo-notifications`)
 - Navigation (e.g. `expo-router`) once there's more than one screen
