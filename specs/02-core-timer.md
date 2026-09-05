@@ -30,7 +30,9 @@ Deliberately minimal:
 Pure TypeScript, no React/React Native imports. Poll-only — no subscriptions or callbacks; the UI is responsible for re-reading on its own interval.
 
 ```ts
-createTimer(durationMs: number): Timer
+const DURATION_MS = 1_500_000 // 25:00, hardcoded for v1 — see Functional requirements
+
+createTimer(): Timer
 
 Timer {
   start(): void
@@ -40,6 +42,8 @@ Timer {
   getState(): 'idle' | 'running' | 'paused' | 'completed'
 }
 ```
+
+`createTimer()` takes no arguments — the 25:00 duration is a hardcoded internal constant, not a caller-supplied parameter. This matches "fixed for v1" in Functional requirements literally: there is no external input to validate or guard against (no negative/zero-duration case to handle), since nothing outside this module chooses the duration. Revisit this signature (e.g. `createTimer(durationMs: number)`) only if/when a later feature makes duration configurable.
 
 Behavioral contract (this is what implementations must satisfy, not how to satisfy it):
 
@@ -51,7 +55,7 @@ Behavioral contract (this is what implementations must satisfy, not how to satis
 <details>
 <summary>Design hint (non-normative — one valid way to implement the contract above)</summary>
 
-Track two fields: `remainingAtLastActionMs` (remaining time as of the last Start/Pause/Reset) and `runningSinceTimestamp` (timestamp the current run started, or `null` if not running). Derive `getRemainingMs()` as `remainingAtLastActionMs` when not running, or `Math.max(0, remainingAtLastActionMs - (now - runningSinceTimestamp))` when running. Derive `getState()` from the same two fields plus whether `getRemainingMs()` is `0`. This is a suggestion, not a requirement — any implementation satisfying the contract above is acceptable.
+Track two fields: `remainingAtLastActionMs` (remaining time as of the last Start/Pause/Reset, initialized to `DURATION_MS`) and `runningSinceTimestamp` (timestamp the current run started, or `null` if not running). Derive `getRemainingMs()` as `remainingAtLastActionMs` when not running, or `Math.max(0, remainingAtLastActionMs - (now - runningSinceTimestamp))` when running. Derive `getState()` from the same two fields plus whether `getRemainingMs()` is `0`. This is a suggestion, not a requirement — any implementation satisfying the contract above is acceptable.
 
 </details>
 
